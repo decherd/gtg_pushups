@@ -1,4 +1,4 @@
-const CACHE = 'gtg-v1';
+const CACHE = 'gtg-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   './js/app.js',
   './js/db.js',
   './js/state.js',
+  './js/charts.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
 ];

@@ -256,13 +256,14 @@ body {
   gap: 12px;
 }
 
-.chart-placeholder {
+.chart-wrap {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dim);
-  font-size: 15px;
+  min-height: 0;
+  position: relative;
+}
+.chart-wrap canvas {
+  position: absolute;
+  inset: 0;
 }
 
 .export-row {

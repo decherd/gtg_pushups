@@ -1,6 +1,7 @@
 import {
   state, init, switchUser, createUser, logSet, currentUser, todaySets, todayReps, dayStart
 } from './state.js';
+import { renderDay, renderWeek, renderMonth, navigate, addSwipe } from './charts.js';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
@@ -8,11 +9,14 @@ if ('serviceWorker' in navigator) {
 
 // ── View routing ────────────────────────────────────────────────────────────
 
+const CHART_RENDERERS = { day: renderDay, week: renderWeek, month: renderMonth };
+
 function showView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`view-${name}`).classList.add('active');
   document.querySelector(`[data-view="${name}"]`).classList.add('active');
+  CHART_RENDERERS[name]?.();
 }
 
 document.querySelectorAll('.nav-tab').forEach(btn => {
@@ -132,16 +136,16 @@ document.getElementById('btn-export').addEventListener('click', () => {
   URL.revokeObjectURL(a.href);
 });
 
-// ── Chart view placeholders ───────────────────────────────────────────────────
-// Charts will be wired up in a future phase
+// ── Chart navigation ──────────────────────────────────────────────────────────
 
 ['day', 'week', 'month'].forEach(view => {
-  const main = document.querySelector(`#view-${view} .chart-main`);
-  if (!main) return;
-  const placeholder = document.createElement('div');
-  placeholder.className = 'chart-placeholder';
-  placeholder.textContent = 'Charts coming soon';
-  main.appendChild(placeholder);
+  document.getElementById(`${view}-prev`).addEventListener('click', () => navigate(view, -1));
+  document.getElementById(`${view}-next`).addEventListener('click', () => navigate(view, 1));
+  addSwipe(
+    document.getElementById(`view-${view}`),
+    () => navigate(view, -1),  // swipe left  → older
+    () => navigate(view, 1),   // swipe right → newer
+  );
 });
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

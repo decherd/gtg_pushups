@@ -61,7 +61,9 @@
       <h1 id="day-title">Today</h1>
       <button class="nav-arrow" id="day-next">&#8250;</button>
     </header>
-    <main class="chart-main"></main>
+    <main class="chart-main">
+      <div class="chart-wrap"></div>
+    </main>
   </div>
 
   <!-- ── Week ── -->
@@ -71,7 +73,9 @@
       <h1 id="week-title">This Week</h1>
       <button class="nav-arrow" id="week-next">&#8250;</button>
     </header>
-    <main class="chart-main"></main>
+    <main class="chart-main">
+      <div class="chart-wrap"></div>
+    </main>
   </div>
 
   <!-- ── Month ── -->
@@ -85,6 +89,7 @@
       <div class="export-row">
         <button class="btn-export" id="btn-export">Export CSV</button>
       </div>
+      <div class="chart-wrap"></div>
     </main>
   </div>
 
@@ -139,6 +144,8 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2/dist/chartjs-plugin-datalabels.min.js"></script>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>
