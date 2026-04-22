@@ -167,6 +167,17 @@ function escHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+// ── Midnight rollover ─────────────────────────────────────────────────────────
+
+function scheduleMidnightRefresh() {
+  const now = new Date();
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  setTimeout(() => {
+    renderTrack();
+    scheduleMidnightRefresh();
+  }, midnight - now);
+}
+
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
-init().then(renderTrack);
+init().then(() => { renderTrack(); scheduleMidnightRefresh(); });
