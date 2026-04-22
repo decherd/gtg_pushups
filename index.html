@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GTG">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="css/app.css">
+  <title>GTG Push-Ups</title>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Track ── -->
+  <div id="view-track" class="view active">
+    <header class="view-header">
+      <button class="user-btn" id="user-btn">Me</button>
+      <h1>Today</h1>
+      <div class="header-spacer"></div>
+    </header>
+    <main class="track-main">
+      <div class="today-stats">
+        <div class="stat">
+          <span class="stat-num" id="today-reps">0</span>
+          <span class="stat-lbl">reps</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num" id="today-sets">0</span>
+          <span class="stat-lbl">sets</span>
+        </div>
+      </div>
+
+      <div class="set-builder">
+        <div class="cur-set-wrap">
+          <span class="cur-set-num" id="cur-set">0</span>
+          <span class="cur-set-lbl">current set</span>
+        </div>
+        <div class="inc-row">
+          <button class="btn-inc" data-add="5">+5</button>
+          <button class="btn-inc" data-add="3">+3</button>
+          <button class="btn-inc" data-add="1">+1</button>
+        </div>
+        <div class="action-row">
+          <button class="btn-clear" id="btn-clear">Clear</button>
+          <button class="btn-log" id="btn-log">Log Set</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Day ── -->
+  <div id="view-day" class="view">
+    <header class="view-header">
+      <button class="nav-arrow" id="day-prev">&#8249;</button>
+      <h1 id="day-title">Today</h1>
+      <button class="nav-arrow" id="day-next">&#8250;</button>
+    </header>
+    <main class="chart-main"></main>
+  </div>
+
+  <!-- ── Week ── -->
+  <div id="view-week" class="view">
+    <header class="view-header">
+      <button class="nav-arrow" id="week-prev">&#8249;</button>
+      <h1 id="week-title">This Week</h1>
+      <button class="nav-arrow" id="week-next">&#8250;</button>
+    </header>
+    <main class="chart-main"></main>
+  </div>
+
+  <!-- ── Month ── -->
+  <div id="view-month" class="view">
+    <header class="view-header">
+      <button class="nav-arrow" id="month-prev">&#8249;</button>
+      <h1 id="month-title">This Month</h1>
+      <button class="nav-arrow" id="month-next">&#8250;</button>
+    </header>
+    <main class="chart-main">
+      <div class="export-row">
+        <button class="btn-export" id="btn-export">Export CSV</button>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Bottom nav ── -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" data-view="track">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20v-6M6 20V10M18 20V4"/>
+    </svg>
+    <span>Track</span>
+  </button>
+  <button class="nav-tab" data-view="day">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    <span>Day</span>
+  </button>
+  <button class="nav-tab" data-view="week">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="9" width="4" height="12"/>
+      <rect x="9" y="5" width="4" height="16"/>
+      <rect x="16" y="12" width="4" height="9"/>
+    </svg>
+    <span>Week</span>
+  </button>
+  <button class="nav-tab" data-view="month">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+    <span>Month</span>
+  </button>
+</nav>
+
+<!-- ── User modal ── -->
+<div id="user-modal" class="modal hidden">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <h2>Users</h2>
+      <button class="modal-close" id="modal-close">&#10005;</button>
+    </div>
+    <ul class="user-list" id="user-list"></ul>
+    <div class="add-user-row">
+      <input class="add-user-input" id="new-user-name" type="text" placeholder="Add user…" maxlength="30" autocomplete="off">
+      <button class="btn-add-user" id="btn-add-user">Add</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
