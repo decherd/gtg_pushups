@@ -5,6 +5,9 @@ import { renderDay, renderWeek, renderMonth, navigate, addSwipe } from './charts
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'SW_UPDATED') window.location.reload();
+  });
 }
 
 // ── View routing ────────────────────────────────────────────────────────────
