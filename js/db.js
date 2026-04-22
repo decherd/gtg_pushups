@@ -53,3 +53,22 @@ export async function deleteSet(id) {
   const db = await getDB();
   return run(db.transaction('sets', 'readwrite').objectStore('sets').delete(id));
 }
+
+export async function deleteUser(id) {
+  const db = await getDB();
+  return run(db.transaction('users', 'readwrite').objectStore('users').delete(id));
+}
+
+export async function deleteSetsByUser(userId) {
+  const db = await getDB();
+  return new Promise((res, rej) => {
+    const tx = db.transaction('sets', 'readwrite');
+    const req = tx.objectStore('sets').index('userId').openCursor(IDBKeyRange.only(userId));
+    req.onsuccess = e => {
+      const cursor = e.target.result;
+      if (cursor) { cursor.delete(); cursor.continue(); }
+      else res();
+    };
+    req.onerror = () => rej(req.error);
+  });
+}

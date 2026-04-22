@@ -1,5 +1,5 @@
 import {
-  state, init, switchUser, createUser, logSet, currentUser, todaySets, todayReps, dayStart
+  state, init, switchUser, createUser, removeUser, logSet, currentUser, todaySets, todayReps, dayStart
 } from './state.js';
 import { renderDay, renderWeek, renderMonth, navigate, addSwipe } from './charts.js';
 
@@ -78,10 +78,12 @@ function closeModal() {
 
 function renderUserList() {
   const list = document.getElementById('user-list');
+  const canDelete = state.users.length > 1;
   list.innerHTML = state.users.map(u => `
     <li class="user-item${u.id === state.currentUserId ? ' active' : ''}" data-id="${u.id}">
       <span class="user-dot"></span>
-      <span>${escHtml(u.name)}</span>
+      <span class="user-name">${escHtml(u.name)}</span>
+      ${canDelete ? `<button class="btn-delete-user" data-id="${u.id}" aria-label="Delete ${escHtml(u.name)}">✕</button>` : ''}
     </li>
   `).join('');
   list.querySelectorAll('.user-item').forEach(li => {
@@ -89,6 +91,14 @@ function renderUserList() {
       await switchUser(li.dataset.id);
       renderTrack();
       closeModal();
+    });
+  });
+  list.querySelectorAll('.btn-delete-user').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      await removeUser(btn.dataset.id);
+      renderTrack();
+      renderUserList();
     });
   });
 }

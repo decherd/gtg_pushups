@@ -1,4 +1,4 @@
-import { getUsers, putUser, getSetsForUser, putSet } from './db.js';
+import { getUsers, putUser, getSetsForUser, putSet, deleteUser, deleteSetsByUser } from './db.js';
 
 export const state = {
   users: [],
@@ -40,6 +40,16 @@ export async function createUser(name) {
   await putUser(user);
   state.users.push(user);
   return user;
+}
+
+export async function removeUser(id) {
+  if (state.users.length <= 1) return; // always keep at least one user
+  await deleteSetsByUser(id);
+  await deleteUser(id);
+  state.users = state.users.filter(u => u.id !== id);
+  if (state.currentUserId === id) {
+    await switchUser(state.users[0].id);
+  }
 }
 
 export async function logSet() {
