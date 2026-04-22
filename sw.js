@@ -1,4 +1,4 @@
-const CACHE = 'gtg-v5';
+const CACHE = 'gtg-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -10,6 +10,8 @@ const ASSETS = [
   './js/charts.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js',
+  'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2/dist/chartjs-plugin-datalabels.min.js',
 ];
 
 self.addEventListener('install', e => {

@@ -242,6 +242,10 @@ body {
   background: #4f46e5;
   transform: scale(0.98);
 }
+.btn-log:disabled {
+  background: var(--surface-2);
+  color: var(--text-dim);
+}
 .btn-log.logged {
   background: #16a34a;
 }

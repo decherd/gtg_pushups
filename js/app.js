@@ -32,6 +32,7 @@ function renderTrack() {
   document.getElementById('today-reps').textContent = todayReps();
   document.getElementById('today-sets').textContent = todaySets().length;
   document.getElementById('cur-set').textContent = state.currentSet;
+  document.getElementById('btn-log').disabled = state.currentSet === 0;
   const u = currentUser();
   document.getElementById('user-btn').textContent = u ? u.name : 'Me';
 }
@@ -167,17 +168,13 @@ function escHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-// ── Midnight rollover ─────────────────────────────────────────────────────────
+// ── Day rollover ──────────────────────────────────────────────────────────────
+// Re-render whenever the app comes back into focus (handles midnight + iOS suspend)
 
-function scheduleMidnightRefresh() {
-  const now = new Date();
-  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-  setTimeout(() => {
-    renderTrack();
-    scheduleMidnightRefresh();
-  }, midnight - now);
-}
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) renderTrack();
+});
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
-init().then(() => { renderTrack(); scheduleMidnightRefresh(); });
+init().then(renderTrack);
