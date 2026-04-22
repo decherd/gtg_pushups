@@ -34,7 +34,7 @@ body {
   top: env(safe-area-inset-top);
   left: 0;
   right: 0;
-  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
+  bottom: calc(var(--nav-h) + max(env(safe-area-inset-bottom), 34px));
 }
 
 .view {
@@ -69,7 +69,7 @@ body {
   right: 0;
   display: flex;
   align-items: flex-start;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(env(safe-area-inset-bottom), 34px);
   background: var(--surface);
   border-top: 1px solid var(--border);
   z-index: 10;
@@ -327,7 +327,7 @@ body {
   position: relative;
   background: var(--surface);
   border-radius: 20px 20px 0 0;
-  padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+  padding: 20px 20px calc(20px + max(env(safe-area-inset-bottom), 34px));
   border-top: 1px solid var(--border);
 }
 .modal-header {
