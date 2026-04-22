@@ -1,5 +1,5 @@
 import {
-  state, init, switchUser, createUser, removeUser, logSet, currentUser, todaySets, todayReps, dayStart
+  state, init, switchUser, createUser, removeUser, logSet, importSets, currentUser, todaySets, todayReps, dayStart
 } from './state.js';
 import { renderDay, renderWeek, renderMonth, navigate, addSwipe } from './charts.js';
 
@@ -119,6 +119,44 @@ document.getElementById('btn-add-user').addEventListener('click', async () => {
 
 document.getElementById('new-user-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('btn-add-user').click();
+});
+
+// ── CSV import ───────────────────────────────────────────────────────────────
+
+document.getElementById('btn-import').addEventListener('click', () => {
+  document.getElementById('csv-input').click();
+});
+
+document.getElementById('csv-input').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';
+
+  const text = await file.text();
+  const lines = text.trim().split('\n').slice(1); // skip header
+
+  const rows = [];
+  for (const line of lines) {
+    const parts = line.split(',');
+    if (parts.length < 4) continue;
+    const [userName, date, time, reps] = parts;
+    const timestamp = new Date(`${date.trim()}T${time.trim()}`).getTime();
+    const rep = parseInt(reps, 10);
+    if (!userName.trim() || isNaN(timestamp) || isNaN(rep) || rep <= 0) continue;
+    rows.push({ userName: userName.trim(), timestamp, reps: rep });
+  }
+
+  const btn = document.getElementById('btn-import');
+  if (rows.length === 0) {
+    btn.textContent = '✕ Invalid';
+    setTimeout(() => { btn.textContent = 'Import CSV'; }, 2000);
+    return;
+  }
+
+  const count = await importSets(rows);
+  renderTrack();
+  btn.textContent = `✓ ${count} sets`;
+  setTimeout(() => { btn.textContent = 'Import CSV'; }, 2000);
 });
 
 // ── CSV export ───────────────────────────────────────────────────────────────

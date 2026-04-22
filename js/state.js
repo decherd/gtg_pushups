@@ -66,6 +66,33 @@ export async function logSet() {
   return entry;
 }
 
+export async function importSets(rows) {
+  // rows: [{ userName, timestamp, reps }]
+  const byUser = {};
+  for (const row of rows) {
+    (byUser[row.userName] = byUser[row.userName] || []).push(row);
+  }
+
+  let imported = 0;
+  for (const [userName, userRows] of Object.entries(byUser)) {
+    let user = state.users.find(u => u.name === userName);
+    if (!user) user = await createUser(userName);
+
+    const existing = await getSetsForUser(user.id);
+    const existingTs = new Set(existing.map(s => s.timestamp));
+
+    for (const row of userRows) {
+      if (!existingTs.has(row.timestamp)) {
+        await putSet({ id: crypto.randomUUID(), userId: user.id, reps: row.reps, timestamp: row.timestamp });
+        imported++;
+      }
+    }
+  }
+
+  state.sets = await getSetsForUser(state.currentUserId);
+  return imported;
+}
+
 export function currentUser() {
   return state.users.find(u => u.id === state.currentUserId);
 }
